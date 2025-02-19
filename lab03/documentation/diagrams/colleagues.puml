@@ -1,0 +1,25 @@
+@startuml
+
+hide stereotypes
+hide circle
+
+abstract class AbstractColleague
+abstract class Entity
+abstract class Ant
+class Scout
+class Gatherer
+class Soldier
+class Predator
+class Resource
+class Colony
+
+AbstractColleague <|-- Entity
+Entity <|-- Ant
+Ant <|-- Scout
+Ant <|-- Gatherer
+Ant <|-- Soldier
+Entity <|-- Predator
+AbstractColleague <|-- Resource
+AbstractColleague <|-- Colony
+
+@enduml

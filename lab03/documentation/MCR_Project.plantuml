@@ -1,0 +1,386 @@
+@startuml
+
+!theme plain
+top to bottom direction
+
+
+hide circle
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+' Additions
+
+' REMOVE
+
+' ENDSTATIC
+
+class ScoutingStrategy {
+	+ executeStrategy(): void
+}
+
+
+class IdleStrategy {
+	+ executeStrategy(): void
+}
+
+abstract class ObjectiveStrategy {
+	+ {abstract}getRange(): int
+	+ executeStrategy(): void
+}
+
+
+class ObjectiveHomeStrategy {
+	+ getRange(): int
+}
+
+
+
+
+
+abstract class Entity {
+	- {static} random: Random
+	# pv: int
+	- count: int
+	+ {abstract}getStrength(): int
+	+ getCount(): int
+	+ resetCounter(): void
+	+ incrementCounter(): void
+	+ flee(predatorPosition: Vector2): void
+	+ stopFleeing(): void
+	+ isFleeing(): boolean
+	+ getFleeing(): Vector2
+	+ getExploring(): Vector2
+	+ setExploring(newExploring: Vector2): void
+	+ getPv(): int
+	+ decrementPv(amount: int): void
+	+ {abstract}die(): void
+	+ move(newPosition: Vector2): void
+	+ getRandom(): Random
+	+ attack(): void
+	+ {abstract}getVisionRange(): int
+}
+
+
+interface MovementStrategy {
+	~ executeStrategy(): void
+}
+
+class ObjectiveResourceStrategy {
+	+ getRange(): int
+}
+
+abstract class AbstractColleague {
+	- id: int
+	- {static} idCounter: int
+	+ getMediator(): Mediator
+	+ setMediator(newMediator: Mediator): void
+	+ getPosition(): Vector2
+	+ {abstract}update(): void
+	+ getX(): int
+	+ getY(): int
+	# {abstract}getRenderer(): Renderer
+	+ draw(): void
+	+ {abstract}name(): String
+	+ getSize(): int
+	+ toString(): String
+}
+
+
+class AttackStrategy {
+	+ executeStrategy(): void
+}
+
+
+class Resource {
+	- nbResources: int
+	+ update(): void
+	# getRenderer(): Renderer
+	+ getNbResources(): int
+	+ decrementResource(): void
+	+ name(): String
+}
+
+
+abstract class Mediator {
+	# random: Random
+	# stepFromLastResourceSpawn: int
+	# stepFromLastPredatorSpawn: int
+	- simulationTime: Timer
+	+ {abstract}handleUpdateGatherer(gatherer: Gatherer): void
+	+ {abstract}getRadiusResource(): int
+	+ {abstract}getRadiusToPredator(): int
+	+ {abstract}getRadiusToFlee(): int
+	+ {abstract}getThresholdToCreateAnt(): int
+	+ {abstract}getRadiusPredatorToPrey(): int
+	+ {abstract}stepToSpawnPredator(): int
+	+ {abstract}handleUpdateSoldier(soldier: Soldier): void
+	+ handleUpdatePredator(predator: Predator): void
+	+ handleUpdateScout(scout: Scout): void
+	+ getNbScouts(): int
+	+ getNbGatherers(): int
+	+ getNbSoldiers(): int
+	+ getNbPredators(): int
+	+ getTarget(entity: Entity): Entity
+	+ checkForNearbyResources(scout: Ant): void
+	+ handleResourceFound(resource: Resource): void
+	+ checkForNearbyPredators(ant: Ant): void
+	+ handlePredatorFound(predator: Predator): void
+	+ predatorStillNearby(ant: Ant): void
+	+ handleObjectiveReached(ant: Ant): void
+	+ countNbTimesColleagueInObjectivesHashMap(\n\t abstractColleague: AbstractColleague): int
+	+ nextTurn(): void
+	+ addAnt(): void
+	+ checkForNearbyPreys(predator: Predator): void
+	+ handleResourceDepleted(resource: Resource): void
+	+ handleAntDeath(ant: Ant): void
+	+ handlePredatorDeath(predator: Predator): void
+	+ withinRange(from: AbstractColleague, to: AbstractColleague, range: int): boolean
+	+ entityAttacked(entity: Entity): void
+	+ display(): void
+	+ getAnts(): List<Ant>
+	+ checkCollision(newPosition: Vector2, entity: AbstractColleague): boolean
+	+ {abstract}stepToSpawnResource(): int
+	+ spawnResource(): void
+	+ spawnPredator(): void
+	+ handleDeath(): void
+	+ getObjective(entity: Entity): AbstractColleague
+	+ finish(): void
+}
+
+
+class Simulation {
+	- colorblindMode: boolean
+	- done: boolean
+	- nbScouts: int
+	- nbSoldiers: int
+	- nbGatherer: int
+	+ initMediator(): void
+	+ isColorblindMode(): boolean
+	+ switchColorBlindMode(): void
+	+ setNbScouts(nbScouts: int): void
+	+ setNbSoldiers(nbSoldiers: int): void
+	+ setNbGatherer(nbGatherer: int): void
+	+ setDone(): void
+	+ getNumberOfScouts(): int
+	+ getNumberOfSoldiers(): int
+	+ getNumberOfGatherers(): int
+	+ getNumberOfPredators(): int
+	+ run(): void
+	+ setMediatorToAggressive(): void
+	+ setMediatorToExplore(): void
+	+ setMediatorToBalanced(): void
+	+ {static} getInstance(): Simulation
+	+ {static} main(args: String[]): void
+}
+
+
+
+
+class AggressiveMediator {
+	+ handleResourceFound(resource: Resource): void
+	+ handlePredatorFound(predator: Predator): void
+	+ handlePredatorDeath(predator: Predator): void
+	+ predatorStillNearby(ant: Ant): void
+	+ handleUpdateGatherer(gatherer: Gatherer): void
+	+ handleUpdateScout(scout: Scout): void
+	+ handleUpdateSoldier(soldier: Soldier): void
+	+ getRadiusResource(): int
+	+ getRadiusToPredator(): int
+	+ getRadiusToFlee(): int
+	+ getThresholdToCreateAnt(): int
+	+ getRadiusPredatorToPrey(): int
+	+ stepToSpawnResource(): int
+	+ stepToSpawnPredator(): int
+	+ handleDeath(): void
+}
+
+
+
+
+
+abstract class Ant {
+	- holding: boolean
+	+ areThereResourcesNearby(): void
+	+ isHolding(): boolean
+	+ setHolding(holding: boolean): void
+	+ isPredatorNearby(): void
+	+ arrivedAtObjective(): void
+	+ die(): void
+}
+
+
+
+
+
+class Colony {
+	- nbFood: int
+	+ update(): void
+	# getRenderer(): Renderer
+	+ name(): String
+	+ getNbFood(): int
+	+ incrementFood(): void
+	+ decrementFood(nbFoodUsed: int): void
+}
+
+
+class Scout {
+	+ getStrength(): int
+	# getRenderer(): Renderer
+	+ update(): void
+	+ getVisionRange(): int
+	+ name(): String
+}
+
+class BalancedMediator {
+	+ handleUpdateGatherer(gatherer: Gatherer): void
+	+ handleUpdateSoldier(soldier: Soldier): void
+	+ getRadiusResource(): int
+	+ getRadiusToPredator(): int
+	+ getRadiusToFlee(): int
+	+ getThresholdToCreateAnt(): int
+	+ getRadiusPredatorToPrey(): int
+	+ stepToSpawnResource(): int
+	+ stepToSpawnPredator(): int
+}
+
+
+
+
+class PredatorStrategy {
+	+ executeStrategy(): void
+}
+
+
+
+
+
+class FleeingStrategy {
+	+ executeStrategy(): void
+}
+
+
+
+interface Displayable {
+	~ draw(): void
+	~ update(): void
+	~ getX(): int
+	~ getY(): int
+}
+
+
+
+class Gatherer {
+	+ getStrength(): int
+	# getRenderer(): Renderer
+	+ update(): void
+	+ getVisionRange(): int
+	+ name(): String
+}
+
+class Soldier {
+	+ getStrength(): int
+	# getRenderer(): Renderer
+	+ update(): void
+	+ getVisionRange(): int
+	+ name(): String
+}
+
+class Vector2 {
+	+ {static} random: Random
+	- x: int
+	- y: int
+	+ {static} getDirection(from: Vector2, to: Vector2): Vector2
+	+ {static} isWithinRange(from: Vector2, to: Vector2, range: int): boolean
+	+ {static} getRandomNonNullVector(): Vector2
+	+ add(v: Vector2): Vector2
+	+ getX(): int
+	+ getY(): int
+	+ dist(v: Vector2): double
+	+ toString(): String
+	+ {static} getOrthogonalDirection(collisionDirection: Vector2): Vector2
+	+ {static} isColliding(previousPos: Vector2, newPos: Vector2, otherPos: Vector2, \n\t radiusFirst: double, radiusSecond: double): boolean
+	+ {static} outOfBounds(previousPos: Vector2, newPosition: Vector2, \n\t entityRadius: double, mapWidth: int, mapHeight: int): boolean
+	+ {static} minToBound(position: Vector2, entityRadius: double, mapWidth: int, \n\t mapHeight: int): double
+}
+
+
+enum POSSIBLE_DIRECTIONS {
+	+ UP:
+	+ DOWN:
+	+ LEFT:
+	+ RIGHT:
+	+ UP_LEFT:
+	+ UP_RIGHT:
+	+ DOWN_LEFT:
+	+ DOWN_RIGHT:
+	- vector: Vector2
+	+ getDirection(): Vector2
+}
+
+
+class Predator {
+	+ getStrength(): int
+	# getRenderer(): Renderer
+	+ areTherePreysNearby(): void
+	+ update(): void
+	+ name(): String
+	+ getVisionRange(): int
+	+ die(): void
+}
+
+class ExploreMediator {
+	+ handleUpdateGatherer(gatherer: Gatherer): void
+	+ handleUpdateSoldier(soldier: Soldier): void
+	+ addAnt(): void
+	+ getRadiusToPredator(): int
+	+ getRadiusToFlee(): int
+	+ getThresholdToCreateAnt(): int
+	+ getRadiusPredatorToPrey(): int
+	+ stepToSpawnResource(): int
+	+ getRadiusResource(): int
+	+ stepToSpawnPredator(): int
+}
+
+
+AbstractColleague          -[#008200,dashed]up-^  Displayable
+AbstractColleague         "1" *-[#595959,plain]-> "-mediator\n1" Mediator
+AbstractColleague         "1" *-[#595959,plain]-> "#position\n1" Vector2
+AggressiveMediator         -[#000082,plain]up-^  Mediator
+Ant                        -[#000082,plain]up-^  Entity
+AttackStrategy            "1" *-[#595959,plain]-> "-entity\n1" Entity
+AttackStrategy             -[#008200,dashed]up-^  MovementStrategy
+BalancedMediator           -[#000082,plain]up-^  Mediator
+Colony                     -[#000082,plain]up-^  AbstractColleague
+Entity                     -[#000082,plain]up-^  AbstractColleague
+Mediator                   "1" *-[#595959,plain]-> "#strategies\n*" MovementStrategy
+Entity                    "1" *-[#595959,plain]-> "#fleeing\n1" Vector2
+Entity                    "1" *-[#595959,plain]-> "#exploring\n1" Vector2
+ExploreMediator            -[#000082,plain]up-^  Mediator
+FleeingStrategy           "1" *-[#595959,plain]-> "-ant\n1" Ant
+FleeingStrategy            -[#008200,dashed]up-^  MovementStrategy
+Gatherer                   -[#000082,plain]up-^  Ant
+IdleStrategy               -[#008200,dashed]up-^  MovementStrategy
+Mediator                  "1" *-[#595959,plain]-> "#objectives\n*" AbstractColleague
+Mediator                  "1" *-[#595959,plain]-> "#hub\n1" Colony
+Mediator                  "1" *-[#595959,plain]-> "#targets\n*" Entity
+Mediator                  "1" *-[#595959,plain]-> "#gatherers\n*" Gatherer
+Mediator                  "1" *-[#595959,plain]-> "#predators\n*" Predator
+Mediator                  "1" *-[#595959,plain]-> "#resources\n*" Resource
+Mediator                  "1" *-[#595959,plain]-> "#scouts\n*" Scout
+Mediator                  "1" *-[#595959,plain]-> "#soldiers\n*" Soldier
+Mediator                  "1" *-[#595959,plain]-> "#toRemove\n*" AbstractColleague
+ObjectiveHomeStrategy      -[#000082,plain]up-^  ObjectiveStrategy
+ObjectiveResourceStrategy  -[#000082,plain]up-^  ObjectiveStrategy
+ObjectiveStrategy         "1" *-[#595959,plain]up-> "#ant\n1" Ant
+ObjectiveStrategy          -[#008200,dashed]up-^  MovementStrategy
+Predator                   -[#000082,plain]up-^  Entity
+PredatorStrategy           -[#008200,dashed]up-^  MovementStrategy
+PredatorStrategy          "1" *-[#595959,plain]-> "-predator\n1" Predator
+Resource                   -[#000082,plain]up-^  AbstractColleague
+Scout                      -[#000082,plain]up-^  Ant
+ScoutingStrategy          "1" *-[#595959,plain]-> "-ant\n1" Ant
+ScoutingStrategy           -[#008200,dashed]up-^  MovementStrategy
+Simulation                "1" *-[#595959,plain]up-> "-mediator\n1" Mediator
+Soldier                    -[#000082,plain]up-^  Ant
+Vector2 --+ POSSIBLE_DIRECTIONS
+@enduml

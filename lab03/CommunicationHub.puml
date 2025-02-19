@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Gatherer -> Mediator : handleHoldingResource
+Mediator -> Gatherer : goToHub
+Gatherer -> Mediator : reachedHub
+Mediator -> Hub : resourceAdded
+@enduml
