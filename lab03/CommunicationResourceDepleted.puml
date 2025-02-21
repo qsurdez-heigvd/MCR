@@ -1,9 +1,0 @@
-@startuml
-'https://plantuml.com/sequence-diagram
-
-autonumber
-
-Resource -> Mediator : depleted
-Mediator -> Gatherer : goToHub
-
-@enduml
