@@ -45,7 +45,7 @@ Une fois le programme lancé, vous verrez en premier l'écran titre. Celui-ci co
 de choisir le nombre de fourmis scouts, gatherers et soldiers, respectivement. Il y a aussi un bouton "Start" qui permet
 de lancer la simulation avec les paramètres choisis.
 
-![img.png](img.png)
+![img.png](./documentation/img.png)
 
 Une fois que vous avez cliqué sur le bouton "Start", la simulation démarre. L'écran titre disparaît et est remplacé par
 l'écran de simulation. Celui-ci affiche une carte sur laquelle se déplacent les fourmis et les prédateurs, selon les
@@ -59,7 +59,7 @@ différents types de fourmis s'il est enclenché. Les fourmis scouts sont repré
 par la lettre `G` et les soldiers par la lettre `F` (pour fighter).
 Si la fenêtre de simulation est fermée, la simulation s'arrête.
 
-![img_2.png](img_2.png)
+![img_2.png](./documentation/img_2.png)
 
 Enfin, il y a une deuxième fenêtre qui s'affiche lorsque vous cliquez sur le bouton "Start". C'est la fenêtre
 d'informations. Elle affiche le nombre de fourmis scouts, gatherers, soldiers et de prédateurs présents dans la
@@ -67,13 +67,13 @@ simulation.
 Ces nombres sont mis à jour toutes les 1500 millisecondes pour éviter de surcharger la simulation. Cette fenêtre peut
 être fermée sans arrêter la simulation.
 
-![img_1.png](img_1.png)
+![img_1.png](./documentation/img_1.png)
 
 La simulation s'arrête lorsque vous fermez la ftre de simulation ou s'il n'y a plus de fourmis dans la simulation.
 
 Vous trouverez ci-dessous une légende pour les différents objets de la simulation :
 
-![img_3.png](img_3.png)
+![img_3.png](./documentation/img_3.png)
 
 ## Diagramme de Classes
 
@@ -85,7 +85,7 @@ le médiateur, les collègues et la logique. Ces digrammes de classe se trouvent
 
 ## Collègues 
 
-![Colleagues](colleagues-0.png)
+![Colleagues](./documentation/colleagues-0.png)
 
 Les collègues concrets sont les objets qui interagissent entre eux via le médiateur. Ils ont tous des aptitudes et des
 utilités différentes. Voici une description de chaque collègue concret :
@@ -118,7 +118,7 @@ et de rendre le code plus modulaire et plus facile à maintenir.
 
 ## Mediator
 
-![Colleagues and mediators](mediator_colleagues.png)
+![Colleagues and mediators](./documentation/mediator_colleagues.png)
 
 La classe `Mediator` est le cœur de notre implémentation du design pattern du même nom. C'est elle qui gère et contrôle
 toutes les communications et interactions entre les différents collègues concrets de la simulation (fourmis, prédateurs,
@@ -184,7 +184,7 @@ ce dernier voit ou non une ressource. Si c'est le cas, le `Mediator` doit assign
 la ressource. $n$ étant le nombre d'unités de nourriture que la ressource possède. Le `Mediator` ajoute cette ressource
 dans la liste des ressources trouvées.
 
-![CommunicationScout](./CommunicationScout-0.png)
+![CommunicationScout](./documentation/CommunicationScout-0.png)
 
 Des communications du même type sont effectuées pour à la découverte de prédateurs, pour notifier les `Soldier` d'aller attaquer
 les prédateurs, ou d'autres types de fourmis en fonction du médiateur utilisé.
