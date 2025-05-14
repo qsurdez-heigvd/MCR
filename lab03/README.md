@@ -1,6 +1,6 @@
 # Ant Colony Simulation - Design Pattern Mediator
 
-##### authors: Rachel Tranchida, Quentin Surdez, Eva Ray
+##### authors: REDACTED, Quentin Surdez, REDACTED
 
 ## Instructions de Compilation
 
